@@ -82,10 +82,13 @@ def analyze(resume_text: str, job_text: str) -> MatchReport:
     )
 
     job_terms = top_terms(job_text, n=25)
-    resume_tokens = set(tokenize(resume_text))
-    present_terms = [t for t in job_terms if t in resume_tokens]
+    resume_stems = set(tokenize(resume_text))
+    present_terms = [s for s, _ in job_terms if s in resume_stems]
     keyword_coverage = len(present_terms) / len(job_terms) if job_terms else 1.0
-    missing_keywords = [t for t in job_terms if t not in resume_tokens][:10]
+    missing_keywords = [
+        surface for s, surface in job_terms
+        if s not in resume_stems and not _covered_by_skill(surface, resume_skills)
+    ][:10]
 
     score = round(100 * (SKILL_SHARE * skill_score + (1 - SKILL_SHARE) * keyword_coverage))
 
@@ -101,6 +104,12 @@ def analyze(resume_text: str, job_text: str) -> MatchReport:
         missing_keywords=missing_keywords,
         tips=_tips(required - resume_skills, keyword_coverage),
     )
+
+
+def _covered_by_skill(term: str, resume_skills: set[str]) -> bool:
+    """O termo nomeia uma habilidade que o currículo já cobre por sinônimo (ex.: "llms" × "IA generativa")."""
+    skills = find_skills(term)
+    return bool(skills) and skills <= resume_skills
 
 
 def _tips(missing_required: set[str], keyword_coverage: float) -> list[str]:

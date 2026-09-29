@@ -3,7 +3,7 @@ from pathlib import Path
 from ats_match import analyze
 from ats_match.matcher import split_job_sections
 from ats_match.skills import find_skills
-from ats_match.text import normalize, tokenize
+from ats_match.text import normalize, tokenize, top_terms
 
 EXAMPLES = Path(__file__).parent.parent / "examples"
 
@@ -14,6 +14,17 @@ def test_normalize_removes_accents_and_case():
 
 def test_tokenize_drops_stopwords():
     assert tokenize("Experiência com Python e SQL") == ["python", "sql"]
+
+
+def test_inflections_share_a_stem():
+    assert len(set(tokenize("automatizei automações automação"))) == 1
+    assert top_terms("Automações e automações de automação")[0][1] == "automacoes"  # forma exibida
+
+
+def test_inflected_keywords_count_as_present():
+    job = "Desenvolver automações para o atendimento"
+    report = analyze("Desenvolvi e automatizei processos de atendimento.", job)
+    assert report.missing_keywords == [] and report.keyword_coverage == 1.0
 
 
 def test_find_skills_uses_synonyms_and_word_boundaries():
@@ -35,6 +46,12 @@ def test_example_report():
     assert "RAG" in report.missing_desired
     assert {"Python", "SQL", "Git"} <= set(report.matched_required)
     assert 0 < report.score < 100
+
+
+def test_keyword_covered_by_synonym_is_not_reported_missing():
+    report = analyze("Trabalhei com IA generativa em Python.", "## Requisitos\n- LLMs\n- LLMs em Python\n")
+    assert "LLMs" in report.matched_required
+    assert "llms" not in report.missing_keywords
 
 
 def test_perfect_match_scores_high_and_empty_resume_scores_low():

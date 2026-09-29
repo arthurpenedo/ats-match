@@ -1,9 +1,10 @@
-"""CLI: `ats-match curriculo.md vaga.md [--sugerir] [--json]`."""
+"""CLI: `ats-match curriculo.pdf vaga.md [--sugerir] [--json]` (PDF, DOCX, MD ou TXT)."""
 
 import argparse
 import sys
 from pathlib import Path
 
+from .extract import ExtractionError, read_file
 from .matcher import analyze
 
 
@@ -17,8 +18,12 @@ def main(argv: list[str] | None = None) -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")  # acentos corretos no terminal do Windows
 
-    resume = args.curriculo.read_text(encoding="utf-8")
-    job = args.vaga.read_text(encoding="utf-8")
+    try:
+        resume = read_file(args.curriculo)
+        job = read_file(args.vaga)
+    except ExtractionError as exc:
+        print(f"Erro: {exc}", file=sys.stderr)
+        return 2
     report = analyze(resume, job)
 
     if args.json:

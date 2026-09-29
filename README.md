@@ -18,19 +18,23 @@ O `ats-match` faz essa leitura antes do envio e responde três perguntas:
 
 ## Demo
 
-```text
-$ ats-match examples/curriculo.md examples/vaga.md
+![Entrada: currículo e vaga](docs/app-entrada.jpg)
+![Resultado: nota, habilidades e dicas](docs/app-resultado.jpg)
 
-Nota de aderência: 76/100
+Também funciona pela linha de comando, aceitando **PDF, DOCX, Markdown ou TXT**:
+
+```text
+$ ats-match curriculo.pdf examples/vaga.md
+
+Nota de aderência: 77/100
 
 Obrigatórias atendidas: Atendimento ao cliente, Automação de processos, Git, LLMs, Prompt engineering, Python, SQL
 Obrigatórias faltando:  APIs REST
 Diferenciais atendidos: AWS, Inglês, Power BI
-Cobertura de vocabulário da vaga: 48%
-Termos da vaga ausentes: llms, junior, desenvolver, automacoes, apis, rest, criar, testar, assistentes, baseados
+Cobertura de vocabulário da vaga: 52%
+Termos da vaga ausentes: junior, desenvolver, apis, rest, criar, testar, assistentes, baseados, qualidade, engineering
 
 - Se você TEM experiência com APIs REST, deixe isso explícito com o mesmo termo usado na vaga. Se não tem, não invente: destaque experiências próximas e reais.
-- Menos da metade do vocabulário da vaga aparece no currículo. Reescreva as descrições de experiência usando os termos do anúncio (sem mudar os fatos).
 ```
 
 ## Como funciona
@@ -45,6 +49,8 @@ vaga ──────┘   (acentos, stopwords) │   (obrigatórias × difere
                               Claude sugere reescritas ─► validação anti-invenção ─► sugestões
 ```
 
+- **Leitura de arquivos** (`extract.py`): PDF e DOCX (inclusive tabelas, comuns em modelos de currículo). Se o PDF é uma imagem, o app **avisa que um ATS também não conseguiria ler**, um problema real e pouco conhecido.
+- **Radicalização por truncamento** (`text.py`): "automatizei", "automação" e "automações" caem no mesmo radical e contam como o mesmo termo. A lista de termos ausentes mostra a palavra como está na vaga, não o radical.
 - **Taxonomia de habilidades** (`skills.py`): cada habilidade tem sinônimos que os ATS tratam como equivalentes (ex.: *Athena* → AWS, *IA generativa* → LLMs), com casamento por palavra inteira (*ml* não casa dentro de *html*).
 - **Seções da vaga** (`matcher.py`): o que vem sob "Diferenciais"/"Desejável" pesa metade do que é obrigatório.
 - **Nota:** 75% cobertura ponderada de habilidades + 25% cobertura dos 25 termos mais frequentes do anúncio.
@@ -60,33 +66,32 @@ vaga ──────┘   (acentos, stopwords) │   (obrigatórias × difere
 
 ```bash
 git clone https://github.com/arthurpenedo/ats-match && cd ats-match
-pip install -e ".[dev]"
+pip install -e ".[dev,app]"
 
-ats-match examples/curriculo.md examples/vaga.md          # relatório
-ats-match examples/curriculo.md examples/vaga.md --json   # JSON
-
-# sugestões com IA (precisa de ANTHROPIC_API_KEY)
-ats-match examples/curriculo.md examples/vaga.md --sugerir
-
-# API
-uvicorn ats_match.api:app --reload   # POST /match e POST /suggest
+streamlit run streamlit_app.py                               # interface web
+ats-match examples/curriculo.md examples/vaga.md             # linha de comando (PDF/DOCX/MD/TXT)
+ats-match examples/curriculo.md examples/vaga.md --json      # JSON
+ats-match examples/curriculo.md examples/vaga.md --sugerir   # sugestões com IA (precisa de ANTHROPIC_API_KEY)
+uvicorn ats_match.api:app --reload                           # API: POST /match e POST /suggest
 
 pytest -q
 ```
 
 ## Limitações conhecidas
 
-- Sem lematização: "automatizei" e "automações" contam como termos diferentes.
+- A radicalização por truncamento é simples: pode juntar palavras diferentes com o mesmo começo (ex.: "análise" e "analista").
 - A taxonomia cobre principalmente vagas de dados, IA e automação.
-- Não lê PDF ainda (entrada em texto/Markdown).
+- PDFs escaneados (imagem) não são lidos, de propósito: o objetivo é alertar que o ATS também não lê.
 - Não distingue nível de proficiência (ex.: inglês intermediário × avançado).
 
 ## Próximos passos
 
-- [ ] Leitura de PDF e DOCX
-- [ ] Lematização em português
-- [ ] Interface web (Streamlit) com comparação antes/depois
+- [x] Leitura de PDF e DOCX
+- [x] Radicalização em português
+- [x] Interface web (Streamlit)
+- [ ] Demo pública no Streamlit Community Cloud
 - [ ] Ranking de várias vagas para o mesmo currículo
+- [ ] Sugestões de reescrita validadas com a API real (hoje testadas com cliente simulado)
 
 ---
 
