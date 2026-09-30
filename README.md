@@ -42,6 +42,18 @@ Termos da vaga ausentes: junior, desenvolver, apis, rest, criar, testar, assiste
 - Se você TEM experiência com APIs REST, deixe isso explícito com o mesmo termo usado na vaga. Se não tem, não invente: destaque experiências próximas e reais.
 ```
 
+## Com o Claude de verdade
+
+Execução real das sugestões de reescrita (30/09/2026, `claude-opus-5-5`, currículo e vaga de `examples/`) — todas as sugestões em [`docs/exemplo-sugestoes.json`](docs/exemplo-sugestoes.json):
+
+| Antes | Depois |
+|---|---|
+| Participei de testes de prompts de um chatbot de atendimento com IA generativa. | Testei prompts de um chatbot de atendimento baseado em IA generativa (LLMs), apoiando a avaliação das respostas do assistente. |
+| Criei consultas SQL no AWS Athena para acompanhar indicadores de atendimento ao cliente. | Criei consultas SQL no AWS Athena para acompanhar indicadores de qualidade do atendimento ao cliente. |
+| SQL, Python, Pandas, Power BI, Power Automate, Excel, Git, inglês intermediário | Python, Pandas, SQL, AWS Athena, Git, LLMs / IA generativa (testes de prompts), Power BI, Power Automate, Excel, inglês intermediário |
+
+As 6 sugestões passaram na trava anti-invenção, e o modelo se conteve por conta própria: deixou de fora "APIs REST" e "RAG" (pedidos pela vaga, ausentes do currículo), manteve "inglês intermediário" sem inflar e avisou quando uma reescrita supõe algo a confirmar ("o termo 'qualidade' deve ser usado apenas se os indicadores eram, de fato, de qualidade"). Custo medido: 1.815 tokens de entrada, 1.284 de saída, **US$ 0,033**.
+
 ## Como funciona
 
 ```
@@ -98,7 +110,7 @@ python scripts/build_web.py site                             # gera a demo está
 - [x] Interface web (Streamlit)
 - [x] Demo pública (GitHub Pages, rodando no navegador, testada no CI)
 - [ ] Ranking de várias vagas para o mesmo currículo
-- [ ] Sugestões de reescrita validadas com a API real (hoje testadas com cliente simulado)
+- [x] Sugestões de reescrita validadas com a API real (exemplo acima)
 
 ---
 

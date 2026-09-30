@@ -1,0 +1,66 @@
+{
+  "brutas": [
+    {
+      "original": "Analista de dados com 2 anos de experiência em automação de processos e análise de indicadores de atendimento.",
+      "rewritten": "Analista de dados com 2 anos de experiência em automação de processos com Python, análise de indicadores de qualidade do atendimento com SQL e testes de prompts para chatbot baseado em IA generativa (LLMs).",
+      "reason": "Traz para o resumo os requisitos centrais da vaga (Python, SQL, LLMs, qualidade do atendimento) usando apenas fatos já descritos na experiência."
+    },
+    {
+      "original": "Participei de testes de prompts de um chatbot de atendimento com IA generativa.",
+      "rewritten": "- Testei prompts de um chatbot de atendimento baseado em IA generativa (LLMs), apoiando a avaliação das respostas do assistente.",
+      "reason": "Usa os termos da vaga ('testar prompts', 'assistentes baseados em LLMs') e troca 'Participei' por verbo de ação. Não afirma que ela criou prompts nem usa o termo 'prompt engineering' como habilidade formal, pois o currículo só registra participação em testes. Se ela também escreveu prompts, pode acrescentar 'Criei e testei'. A parte 'apoiando a avaliação das respostas' deve ser mantida apenas se refletir o que ela de fato fez nos testes."
+    },
+    {
+      "original": "Criei consultas SQL no AWS Athena para acompanhar indicadores de atendimento ao cliente.",
+      "rewritten": "- Criei consultas SQL no AWS Athena para acompanhar indicadores de qualidade do atendimento ao cliente.",
+      "reason": "Espelha a responsabilidade 'Acompanhar indicadores de qualidade do atendimento com SQL' e mantém AWS explícito (diferencial). O termo 'qualidade' deve ser usado apenas se os indicadores acompanhados eram, de fato, de qualidade do atendimento."
+    },
+    {
+      "original": "Automatizei relatórios semanais com Python e Pandas, reduzindo 6 horas de trabalho manual por semana.",
+      "rewritten": "- Desenvolvi automações de relatórios semanais com Python e Pandas para o time de CX, eliminando 6 horas de trabalho manual por semana.",
+      "reason": "Incorpora o verbo 'desenvolver' e a ideia de automações para o time de atendimento, preservando o número real. Não menciona APIs REST, pois o currículo não indica essa experiência. A menção ao time de CX supõe que os relatórios eram do contexto de atendimento; ajuste se eram para outra área."
+    },
+    {
+      "original": "Montei dashboards no Power BI usados pela liderança de CX.",
+      "rewritten": "- Desenvolvi dashboards no Power BI com indicadores de atendimento para a liderança de CX (Customer Experience).",
+      "reason": "Reforça Power BI (diferencial) e explicita 'atendimento' e 'Customer Experience' para o parser do ATS. Confirme que os dashboards tratavam de indicadores de atendimento antes de usar essa versão."
+    },
+    {
+      "original": "SQL, Python, Pandas, Power BI, Power Automate, Excel, Git, inglês intermediário",
+      "rewritten": "Python, Pandas, SQL, AWS Athena, Git, LLMs / IA generativa (testes de prompts), Power BI, Power Automate, Excel, inglês intermediário",
+      "reason": "Ordena os requisitos obrigatórios da vaga primeiro e torna AWS e LLMs pesquisáveis na seção de habilidades, com base em experiências reais. Mantém 'inglês intermediário' sem inflar para avançado e não inclui APIs REST nem RAG, que não constam no currículo."
+    }
+  ],
+  "aprovadas": [
+    {
+      "original": "Analista de dados com 2 anos de experiência em automação de processos e análise de indicadores de atendimento.",
+      "rewritten": "Analista de dados com 2 anos de experiência em automação de processos com Python, análise de indicadores de qualidade do atendimento com SQL e testes de prompts para chatbot baseado em IA generativa (LLMs).",
+      "reason": "Traz para o resumo os requisitos centrais da vaga (Python, SQL, LLMs, qualidade do atendimento) usando apenas fatos já descritos na experiência."
+    },
+    {
+      "original": "Participei de testes de prompts de um chatbot de atendimento com IA generativa.",
+      "rewritten": "- Testei prompts de um chatbot de atendimento baseado em IA generativa (LLMs), apoiando a avaliação das respostas do assistente.",
+      "reason": "Usa os termos da vaga ('testar prompts', 'assistentes baseados em LLMs') e troca 'Participei' por verbo de ação. Não afirma que ela criou prompts nem usa o termo 'prompt engineering' como habilidade formal, pois o currículo só registra participação em testes. Se ela também escreveu prompts, pode acrescentar 'Criei e testei'. A parte 'apoiando a avaliação das respostas' deve ser mantida apenas se refletir o que ela de fato fez nos testes."
+    },
+    {
+      "original": "Criei consultas SQL no AWS Athena para acompanhar indicadores de atendimento ao cliente.",
+      "rewritten": "- Criei consultas SQL no AWS Athena para acompanhar indicadores de qualidade do atendimento ao cliente.",
+      "reason": "Espelha a responsabilidade 'Acompanhar indicadores de qualidade do atendimento com SQL' e mantém AWS explícito (diferencial). O termo 'qualidade' deve ser usado apenas se os indicadores acompanhados eram, de fato, de qualidade do atendimento."
+    },
+    {
+      "original": "Automatizei relatórios semanais com Python e Pandas, reduzindo 6 horas de trabalho manual por semana.",
+      "rewritten": "- Desenvolvi automações de relatórios semanais com Python e Pandas para o time de CX, eliminando 6 horas de trabalho manual por semana.",
+      "reason": "Incorpora o verbo 'desenvolver' e a ideia de automações para o time de atendimento, preservando o número real. Não menciona APIs REST, pois o currículo não indica essa experiência. A menção ao time de CX supõe que os relatórios eram do contexto de atendimento; ajuste se eram para outra área."
+    },
+    {
+      "original": "Montei dashboards no Power BI usados pela liderança de CX.",
+      "rewritten": "- Desenvolvi dashboards no Power BI com indicadores de atendimento para a liderança de CX (Customer Experience).",
+      "reason": "Reforça Power BI (diferencial) e explicita 'atendimento' e 'Customer Experience' para o parser do ATS. Confirme que os dashboards tratavam de indicadores de atendimento antes de usar essa versão."
+    },
+    {
+      "original": "SQL, Python, Pandas, Power BI, Power Automate, Excel, Git, inglês intermediário",
+      "rewritten": "Python, Pandas, SQL, AWS Athena, Git, LLMs / IA generativa (testes de prompts), Power BI, Power Automate, Excel, inglês intermediário",
+      "reason": "Ordena os requisitos obrigatórios da vaga primeiro e torna AWS e LLMs pesquisáveis na seção de habilidades, com base em experiências reais. Mantém 'inglês intermediário' sem inflar para avançado e não inclui APIs REST nem RAG, que não constam no currículo."
+    }
+  ]
+}
