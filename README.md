@@ -1,6 +1,7 @@
 # ats-match
 
 [![CI](https://github.com/arthurpenedo/ats-match/actions/workflows/ci.yml/badge.svg)](https://github.com/arthurpenedo/ats-match/actions/workflows/ci.yml)
+[![Demo](https://github.com/arthurpenedo/ats-match/actions/workflows/demo.yml/badge.svg)](https://github.com/arthurpenedo/ats-match/actions/workflows/demo.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -17,6 +18,10 @@ O `ats-match` faz essa leitura antes do envio e responde três perguntas:
 3. **Como reescrever sem mentir?** Sugestões geradas por LLM, com uma trava que **descarta qualquer sugestão que invente uma habilidade** ausente do currículo.
 
 ## Demo
+
+**[Abrir a demo: arthurpenedo.github.io/ats-match](https://arthurpenedo.github.io/ats-match/)** — o app roda **inteiro no seu navegador** (Python compilado para WebAssembly via [stlite](https://github.com/whitphx/stlite)). Não há servidor: o currículo enviado não sai do seu computador. O primeiro carregamento leva uns 20 segundos. A reescrita com IA fica desativada na demo, porque precisaria de chave de API.
+
+A cada push, o CI monta o site, abre num Chromium de verdade, clica em "Carregar exemplo" → "Analisar" e confere que a nota calculada no navegador é **igual** à do Python antes de publicar.
 
 ![Entrada: currículo e vaga](docs/app-entrada.jpg)
 ![Resultado: nota, habilidades e dicas](docs/app-resultado.jpg)
@@ -61,6 +66,7 @@ vaga ──────┘   (acentos, stopwords) │   (obrigatórias × difere
 - **Núcleo determinístico, IA opcional.** A nota é explicável e reproduzível, sem custo de API e sem variação entre execuções. O LLM entra só onde agrega: reescrever texto.
 - **A trava anti-invenção é código, não prompt.** O prompt pede para não inventar, mas quem garante é a validação: se a sugestão cita uma habilidade que não está no currículo, ela é descartada.
 - **Testes sem chave de API.** O cliente do Claude é injetável, e os testes usam um cliente falso.
+- **Demo sem servidor.** Hospedar um app Streamlit exige uma máquina ligada; com o stlite o mesmo `streamlit_app.py` roda no navegador e fica no GitHub Pages, de graça e sem hibernar. De quebra, é o argumento de privacidade certo para um produto que recebe currículos.
 
 ## Como rodar
 
@@ -75,6 +81,7 @@ ats-match examples/curriculo.md examples/vaga.md --sugerir   # sugestões com IA
 uvicorn ats_match.api:app --reload                           # API: POST /match e POST /suggest
 
 pytest -q
+python scripts/build_web.py site                             # gera a demo estática (stlite)
 ```
 
 ## Limitações conhecidas
@@ -89,7 +96,7 @@ pytest -q
 - [x] Leitura de PDF e DOCX
 - [x] Radicalização em português
 - [x] Interface web (Streamlit)
-- [ ] Demo pública no Streamlit Community Cloud
+- [x] Demo pública (GitHub Pages, rodando no navegador, testada no CI)
 - [ ] Ranking de várias vagas para o mesmo currículo
 - [ ] Sugestões de reescrita validadas com a API real (hoje testadas com cliente simulado)
 
