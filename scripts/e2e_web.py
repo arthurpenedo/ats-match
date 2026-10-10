@@ -28,13 +28,17 @@ def main(url: str, captura: str | None = None) -> int:
         pagina.get_by_role("button", name="Analisar").click(timeout=60_000)
         pagina.get_by_text("Nota de aderência", exact=True).wait_for(timeout=60_000)
         nota = pagina.locator('[data-testid="stMetricValue"]').first.inner_text()
+        # toda seção mostrada ao visitante precisa funcionar: as sugestões de reescrita também
+        pagina.get_by_text("Antes:").first.wait_for(timeout=30_000)
+        sugestoes = pagina.get_by_text("Antes:").count()
+        desativada = pagina.get_by_text("desativada").count()
         if captura:
             pagina.mouse.wheel(0, 420)
             pagina.wait_for_timeout(800)
             pagina.screenshot(path=captura)
         navegador.close()
-    print(f"navegador: {nota} · python: {esperado}/100")
-    return 0 if nota == f"{esperado}/100" else 1
+    print(f"navegador: {nota} · python: {esperado}/100 · sugestões: {sugestoes} · 'desativada' na página: {desativada}")
+    return 0 if nota == f"{esperado}/100" and sugestoes > 0 and desativada == 0 else 1
 
 
 if __name__ == "__main__":

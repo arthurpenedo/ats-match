@@ -4,7 +4,7 @@
 
 Não há servidor: o GitHub Pages entrega os arquivos .py e o navegador executa o Python.
 O currículo enviado nunca sai do computador de quem usa a demo. A função de reescrita com IA
-fica desativada ali (precisaria de chave de API), exatamente como numa instalação sem chave.
+funciona ali por regras (rewrite.py), sem API paga; a versão extra com o Claude fica só para quem tiver chave.
 """
 
 import shutil
@@ -14,7 +14,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 STLITE = "1.9.2"
 # só o necessário para a análise; llm.py (anthropic), api.py e cli.py não rodam no navegador
-MODULOS = ["__init__.py", "matcher.py", "skills.py", "text.py", "extract.py"]
+MODULOS = ["__init__.py", "matcher.py", "skills.py", "text.py", "extract.py", "rewrite.py"]
 REQUISITOS = ["pydantic", "pypdf", "python-docx"]
 
 HTML = """<!doctype html>

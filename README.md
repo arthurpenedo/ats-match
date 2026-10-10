@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-> Compara um currículo com uma vaga do jeito que um **ATS** (Gupy, Greenhouse, Workday) compara, mostra o que está faltando e sugere reescritas **honestas** com a ajuda do Claude.
+> Compara um currículo com uma vaga do jeito que um **ATS** (Gupy, Greenhouse, Workday) compara, mostra o que está faltando e sugere reescritas **honestas**: por regras, de graça e no seu navegador (e, opcionalmente, com o Claude).
 
 ## O problema
 
@@ -19,7 +19,7 @@ O `ats-match` faz essa leitura antes do envio e responde três perguntas:
 
 ## Demo
 
-**[Abrir a demo: arthurpenedo.github.io/ats-match](https://arthurpenedo.github.io/ats-match/)** — o app roda **inteiro no seu navegador** (Python compilado para WebAssembly via [stlite](https://github.com/whitphx/stlite)). Não há servidor: o currículo enviado não sai do seu computador. O primeiro carregamento leva uns 20 segundos. A reescrita com IA fica desativada na demo, porque precisaria de chave de API.
+**[Abrir a demo: arthurpenedo.github.io/ats-match](https://arthurpenedo.github.io/ats-match/)** — o app roda **inteiro no seu navegador** (Python compilado para WebAssembly via [stlite](https://github.com/whitphx/stlite)). Não há servidor: o currículo enviado não sai do seu computador. O primeiro carregamento leva uns 20 segundos. Todas as seções funcionam na demo, inclusive as sugestões de reescrita, que são geradas por regras ali mesmo, sem API paga.
 
 A cada push, o CI monta o site, abre num Chromium de verdade, clica em "Carregar exemplo" → "Analisar" e confere que a nota calculada no navegador é **igual** à do Python antes de publicar.
 
@@ -42,7 +42,19 @@ Termos da vaga ausentes: junior, desenvolver, apis, rest, criar, testar, assiste
 - Se você TEM experiência com APIs REST, deixe isso explícito com o mesmo termo usado na vaga. Se não tem, não invente: destaque experiências próximas e reais.
 ```
 
-## Com o Claude de verdade
+## Sugestões de reescrita sem IA paga
+
+`rewrite.py` gera as sugestões só com regras sobre a taxonomia de habilidades, então funciona em qualquer lugar,
+inclusive na demo:
+
+- a vaga pede uma habilidade que o currículo **tem com outra palavra** → sugere reescrever aquela linha com o termo
+  exato da vaga (no exemplo: *"…chatbot de atendimento com IA generativa (LLMs, Prompt engineering)"*);
+- a vaga pede algo que o currículo **não tem** → não reescreve nada; avisa para só incluir se for verdade.
+
+O teste de ponta a ponta da demo (`scripts/e2e_web.py`, no CI) falha se a seção de sugestões vier vazia ou se
+aparecer qualquer função "desativada" para o visitante.
+
+## Com o Claude de verdade (opcional)
 
 Execução real das sugestões de reescrita (30/09/2026, `claude-opus-5-5`, currículo e vaga de `examples/`) — todas as sugestões em [`docs/exemplo-sugestoes.json`](docs/exemplo-sugestoes.json):
 

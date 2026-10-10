@@ -72,14 +72,18 @@ with right:
         st.markdown(f"- {tip}")
 
 st.divider()
-st.markdown("#### ✍️ Sugestões de reescrita com IA")
-if not os.getenv("ANTHROPIC_API_KEY"):
-    st.info(
-        "Esta função usa a API do Claude e está desativada nesta instalação (sem chave configurada). "
-        "Ela reescreve trechos do currículo com a linguagem da vaga e descarta automaticamente qualquer "
-        "sugestão que invente uma habilidade que você não tem."
-    )
-elif st.button("Gerar sugestões"):
+st.markdown("#### ✍️ Sugestões de reescrita")
+st.caption("Geradas por regras, aqui mesmo no navegador: alinham o seu vocabulário ao da vaga e nunca inventam experiência.")
+from ats_match.rewrite import suggest_local
+
+sugestoes = suggest_local(cv_text, job_text, report)
+if not sugestoes:
+    st.success("Seu currículo já usa os mesmos termos da vaga para as habilidades que você tem.")
+for s in sugestoes:
+    st.markdown(f"**Antes:** {s.original}\n\n**Depois:** {s.rewritten}\n\n_{s.reason}_")
+    st.divider()
+
+if os.getenv("ANTHROPIC_API_KEY") and st.button("Gerar sugestões extras com o Claude (opcional)"):
     from ats_match.llm import RefusalError, suggest_rewrites
 
     with st.spinner("Consultando o Claude..."):
