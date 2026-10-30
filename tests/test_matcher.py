@@ -64,3 +64,23 @@ def test_missing_required_generates_honest_tip():
     report = analyze("Trabalho com Excel.", "## Requisitos\n- Python\n")
     assert report.missing_required == ["Python"]
     assert any("não invente" in tip for tip in report.tips)
+
+
+def test_stem_preserves_short_and_non_alpha_terms():
+    from ats_match.text import stem
+
+    assert stem("sql") == "sql"
+    assert stem("python") == "python"  # 6 letras: no limite, fica intacto
+    assert stem("python3.12") == "python3.12"  # não alfabético: intacto
+    assert stem("automacao") == stem("automacoes") == "automa"
+
+
+def test_tips_vary_with_missing_skills_and_coverage():
+    from ats_match.matcher import _tips
+
+    so_layout = _tips(set(), 0.9)
+    assert len(so_layout) == 1 and "coluna única" in so_layout[0]
+    completo = _tips({"sql", "docker"}, 0.3)
+    assert len(completo) == 3
+    assert "docker, sql" in completo[0]  # ordenado
+    assert "Menos da metade" in completo[1]
