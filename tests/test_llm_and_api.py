@@ -61,3 +61,11 @@ def test_api_match_endpoint():
     body = resp.json()
     assert body["missing_required"] == ["LLMs"]
     assert client.get("/health").json() == {"status": "ok"}
+
+
+def test_validate_suggestions_directly_rejects_fact_outside_resume():
+    ok = llm.Suggestion(original=RESUME, rewritten="Automatizei relatórios com Python.", reason="alinha")
+    inventada = llm.Suggestion(original=RESUME, rewritten="Automatizei relatórios com Python e Docker.", reason="alinha")
+    # a sugestão que só repete habilidades do currículo fica; a que acrescenta uma nova (Docker) cai
+    assert llm.validate_suggestions(RESUME, [ok, inventada]) == [ok]
+    assert llm.validate_suggestions(RESUME, []) == []
