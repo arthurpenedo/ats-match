@@ -7,6 +7,7 @@ import streamlit as st
 
 from ats_match import analyze
 from ats_match.extract import ExtractionError, extract_text
+from ats_match.rewrite import suggest_local
 
 EXAMPLES = Path(__file__).parent / "examples"
 
@@ -74,8 +75,6 @@ with right:
 st.divider()
 st.markdown("#### ✍️ Sugestões de reescrita")
 st.caption("Geradas por regras, aqui mesmo no navegador: alinham o seu vocabulário ao da vaga e nunca inventam experiência.")
-from ats_match.rewrite import suggest_local
-
 sugestoes = suggest_local(cv_text, job_text, report)
 if not sugestoes:
     st.success("Seu currículo já usa os mesmos termos da vaga para as habilidades que você tem.")
