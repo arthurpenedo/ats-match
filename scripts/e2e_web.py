@@ -13,7 +13,7 @@ from playwright.sync_api import sync_playwright
 
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ / "src"))
-from ats_match import analyze  # noqa: E402
+from ats_match import analyze
 
 
 def main(url: str, captura: str | None = None) -> int:

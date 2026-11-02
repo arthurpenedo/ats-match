@@ -15,7 +15,7 @@ STOPWORDS = {
     "atividades", "requisitos", "diferenciais", "responsabilidades", "trabalho", "anos",
     # inglês
     "the", "and", "or", "of", "to", "in", "for", "with", "on", "at", "by", "an", "is", "are",
-    "be", "as", "from", "this", "that", "you", "we", "our", "your", "will", "years",
+    "be", "from", "this", "that", "you", "we", "our", "your", "will", "years",
 }
 
 STEM_LENGTH = 6
