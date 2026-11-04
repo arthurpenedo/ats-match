@@ -14,8 +14,10 @@ def text_pdf(lines: list[str]) -> bytes:
     objects = [
         "<< /Type /Catalog /Pages 2 0 R >>",
         "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
-        "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R "
-        "/Resources << /Font << /F1 5 0 R >> >> >>",
+        (
+            "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R "
+            "/Resources << /Font << /F1 5 0 R >> >> >>"
+        ),
         f"<< /Length {len(content)} >>\nstream\n{content}\nendstream",
         "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
     ]
